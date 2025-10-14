@@ -13,12 +13,6 @@ pub fn part2() {
 }
 
 fn solve_part1(lines: &[String]) -> i32 {
-    // For each line:
-    //      convert to integer
-    //      divide by 3
-    //      round down to nearest integer
-    //      subtract 2
-    //      add result to total
     lines
         .iter()
         .filter_map(|line| line.parse::<i32>().ok()) // convert string to int32, skip failures
@@ -32,28 +26,9 @@ fn solve_part2(lines: &[String]) -> i32 {
         .filter_map(|line| line.parse::<i32>().ok())
         .map(|mass| calculate_fuel(mass))
         .sum()
-
-    /*
-            Upon doing some more "research", I found this solution which is even fancier...
-
-    fn solve_part2(lines: &[String]) -> i32 {
-        lines.iter()
-            .filter_map(|line| line.parse::<i32>().ok())
-            .map(|mass| {
-                std::iter::successors(Some(mass), |&m| {
-                    let fuel = m / 3 - 2;
-                    (fuel > 0).then_some(fuel)
-                })
-                .skip(1)  // Skip the initial mass
-                .sum::<i32>()
-            })
-            .sum()
-    }
-
-            Very fancy but I've not a clue what's going on.
-         */
 }
 
+// Recursive function for part2
 fn calculate_fuel(mass: i32) -> i32 {
     let fuel = mass / 3 - 2; // Work out the fuel needed for a given mass 
     if fuel <= 0 {
