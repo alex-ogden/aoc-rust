@@ -1,5 +1,4 @@
 use crate::utils;
-use std::process;
 
 pub fn part1() {
     let input = utils::read_input("inputs/2019/day2.txt");
