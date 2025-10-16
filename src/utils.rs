@@ -21,7 +21,7 @@ pub fn read_grid(path: &str) -> Vec<Vec<String>> {
 }
 
 pub fn read_grid_by_char(path: &str, delimiter: char) -> Vec<Vec<String>> {
-    read_lines()
+    read_lines(path)
         .iter()
         .map(|line| line.split(delimiter).map(|s| s.to_string()).collect())
         .collect()

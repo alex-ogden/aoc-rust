@@ -14,7 +14,6 @@ pub fn part2() {
             let result = solve_both_parts(&input, i, j);
             if result == "19690720" {
                 println!("2019 :: Day2 :: Part2: {}", 100 * i + j);
-                process::exit(0x0000);
             }
         }
     }
