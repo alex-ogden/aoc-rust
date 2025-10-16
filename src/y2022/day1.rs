@@ -8,6 +8,19 @@ pub fn part1() {
 pub fn part2() {}
 
 fn solve_part1(input: &[String]) -> u32 {
+    input
+        .split(|line| line.is_empty())
+        .map(|group| {
+            group
+                .iter()
+                .filter_map(|line| line.parse::<u32>().ok())
+                .sum()
+        })
+        .max()
+        .unwrap_or(0)
+    /*
+        Less idiomatic way of doing it
+
     // A vector contianing the total calories per elf
     let mut elf_calories: Vec<u32> = vec![0];
     let mut current_elf: u32 = 0;
@@ -28,6 +41,7 @@ fn solve_part1(input: &[String]) -> u32 {
 
     // Return the highest number in the vector
     elf_calories.into_iter().max().unwrap()
+    */
 }
 
 fn solve_part2() {}
