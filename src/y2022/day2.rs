@@ -22,6 +22,17 @@ fn solve_part1(input: &[String]) -> u32 {
         .sum()
 }
 
+fn solve_part2(input: &[String]) -> u32 {
+    input
+        .iter()
+        .map(|line| {
+            let (opp, req_outcome) = line.split_once(" ").expect("Invalid line format!");
+            score_round2(opp, req_outcome)
+        })
+        .sum()
+}
+
+// Helper functions
 fn score_round(opp: &str, player: &str) -> u32 {
     let hand_score = match player {
         "X" => 1, // Rock
@@ -38,16 +49,6 @@ fn score_round(opp: &str, player: &str) -> u32 {
     };
 
     hand_score + game_score
-}
-
-fn solve_part2(input: &[String]) -> u32 {
-    input
-        .iter()
-        .map(|line| {
-            let (opp, req_outcome) = line.split_once(" ").expect("Invalid line format!");
-            score_round2(opp, req_outcome)
-        })
-        .sum()
 }
 
 fn score_round2(opp: &str, req_outcome: &str) -> u32 {

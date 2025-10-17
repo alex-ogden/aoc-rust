@@ -16,4 +16,6 @@ fn main() {
     y2022::day1::part2();
     y2022::day2::part1();
     y2022::day2::part2();
+    y2022::day3::part1();
+    y2022::day3::part2();
 }
