@@ -47,16 +47,12 @@ fn solve_part2(input: &str) -> u64 {
             let id_as_string: String = id.to_string();
             let len = id_as_string.len();
 
-            // Try each possible pattern length
-            let mut found_pattern = false;
-
             for pattern_len in 1..=(len / 2) {
                 // Only check if the pattern divides evenly into the total length
-                if len % pattern_len == 0 {
+                if len.is_multiple_of(pattern_len) {
                     let pattern = &id_as_string[..pattern_len];
                     if pattern.repeat(len / pattern_len) == id_as_string {
                         invalid_id_total += id;
-                        found_pattern = true;
                         break;
                     }
                 }
