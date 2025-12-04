@@ -1,6 +1,9 @@
 use crate::utils;
 use rayon::prelude::*;
 
+// Multi-threaded version of day2
+// Exactly the same solution, but with Rayon used to check each ID range in parallel
+
 pub fn part1() {
     let input: String = utils::read_input("inputs/2025/day2.txt");
     let result: u64 = solve_part1(&input);
