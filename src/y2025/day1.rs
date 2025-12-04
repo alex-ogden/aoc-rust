@@ -3,12 +3,12 @@ use crate::utils;
 pub fn part1() {
     let input: Vec<String> = utils::read_lines("inputs/2025/day1.txt");
     let result: u32 = solve_part1(&input);
-    println!("2025 :: Day 01 :: Part 01: {}", result);
+    println!("2025 :: Day 1 :: Part 1: {}", result);
 }
 pub fn part2() {
     let input: Vec<String> = utils::read_lines("inputs/2025/day1.txt");
     let result: u32 = solve_part2(&input);
-    println!("2025 :: Day 01 :: Part 02: {}", result);
+    println!("2025 :: Day 1 :: Part 2: {}", result);
 }
 
 fn solve_part1(input: &[String]) -> u32 {
