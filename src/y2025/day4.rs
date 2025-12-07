@@ -1,15 +1,19 @@
 use crate::utils;
 
 pub fn part1() {
-    let input: Vec<Vec<String>> = utils::read_grid("inputs/2025/day4.txt");
-    let result: u32 = solve_part1(&input);
+    let input = utils::read_grid("inputs/2025/day4.txt");
+    let result = solve_part1(&input);
     println!("2025 :: Day 4 :: Part 1: {}", result);
 }
-pub fn part2() {}
 
-fn solve_part1(input: &Vec<Vec<String>>) -> u32 {
-    let height = input.len();
-    let width = input[0].len();
+pub fn part2() {
+    let mut input = utils::read_grid("inputs/2025/day4.txt");
+    let result = solve_part2(&mut input);
+    println!("2025 :: Day 4 :: Part 2: {}", result);
+}
+
+fn solve_part1(input: &[Vec<String>]) -> u32 {
+    let (width, height) = (input[0].len(), input.len());
 
     input
         .iter()
@@ -18,23 +22,42 @@ fn solve_part1(input: &Vec<Vec<String>>) -> u32 {
             row.iter()
                 .enumerate()
                 .filter(move |(x, cell)| {
-                    **cell == "@" && utils::get_num_neighbours(input, *x, y, height, width, "@") < 4
+                    // Added 'move' here
+                    cell.as_str() == "@"
+                        && utils::get_num_neighbours(input, *x, y, height, width, "@") < 4
                 })
                 .map(|_| 1)
         })
         .sum()
 }
 
-// fn solve_part2(input: &Vec<Vec<String>>) -> u32 {
-//     let height = input.len();
-//     let width = input[0].len();
-//
-//     input.iter().enumerate().flat_map(|(y, row)| {
-//         row.iter()
-//             .enumerate()
-//             .filter(move |(x, cell)| {
-//                 **cell == "@" && utils::get_num_neighbours(input, *x, y, height, width, "@") < 4
-//             })
-//             .map(|_| 1)
-//     })
-// }
+fn solve_part2(input: &mut [Vec<String>]) -> u32 {
+    (0..)
+        .map(|_| remove_rolls(input))
+        .take_while(|&removed| removed > 0)
+        .sum()
+}
+
+fn remove_rolls(input: &mut [Vec<String>]) -> u32 {
+    let (width, height) = (input[0].len(), input.len());
+
+    // Can't use iterators with mutable borrow, use loops
+    let mut to_remove = Vec::new();
+
+    for y in 0..height {
+        for x in 0..width {
+            if input[y][x] == "@" && utils::get_num_neighbours(input, x, y, height, width, "@") < 4
+            {
+                to_remove.push((x, y));
+            }
+        }
+    }
+
+    let count = to_remove.len() as u32;
+
+    for (x, y) in to_remove {
+        input[y][x] = ".".to_string();
+    }
+
+    count
+}

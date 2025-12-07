@@ -28,7 +28,7 @@ pub fn read_grid_by_char(path: &str, delimiter: char) -> Vec<Vec<String>> {
 }
 
 pub fn get_num_neighbours(
-    grid: &Vec<Vec<String>>,
+    grid: &[Vec<String>],
     posx: usize,
     posy: usize,
     height: usize,
