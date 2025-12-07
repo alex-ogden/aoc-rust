@@ -26,6 +26,12 @@ fn main() {
             y2025::day2mt::part1();
             y2025::day2mt::part2();
         }
+        ("2025", Some("4"), Some("2"), Some("vis")) => {
+            y2025::day4vis::part2();
+        }
+        ("2025", Some("4"), Some("vis"), None) => {
+            y2025::day4vis::part2();
+        }
 
         // Standard 2025 specific parts
         ("2025", Some("1"), Some("1"), None) => y2025::day1::part1(),
