@@ -33,7 +33,7 @@ fn main() {
         ("2025", Some("2"), Some("1"), None) => y2025::day2::part1(),
         ("2025", Some("2"), Some("2"), None) => y2025::day2::part2(),
         ("2025", Some("3"), Some("1"), None) => y2025::day3::part1(),
-        // ("2025", Some("3"), Some("2"), None) => y2025::day3::part2(),
+        ("2025", Some("3"), Some("2"), None) => y2025::day3::part2(),
 
         // Whole day
         ("2025", Some("1"), None, None) => {
@@ -131,5 +131,5 @@ fn run_2025() {
     y2025::day2mt::part1();
     y2025::day2mt::part2();
     y2025::day3::part1();
-    // y2025::day3::part2();
+    y2025::day3::part2();
 }

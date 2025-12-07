@@ -6,55 +6,68 @@ pub fn part1() {
     println!("2025 :: Day 3 :: Part 1: {}", result);
 }
 
-pub fn part2() {}
+pub fn part2() {
+    let input: Vec<String> = utils::read_lines("inputs/2025/day3.txt");
+    let result: u64 = solve_part2(&input);
+    println!("2025 :: Day 3 :: Part 2: {}", result);
+}
 
 fn solve_part1(input: &[String]) -> u32 {
     input
         .iter()
         .map(|bank| {
-            // Create a vector of integers out of the number
-            let numbers: Vec<u8> = bank
-                .chars()
-                .filter_map(|c| c.to_digit(10))
-                .map(|d| d as u8)
-                .collect();
+            let digits: Vec<u8> = bank.bytes().map(|b| b - b'0').collect();
 
-            // Find the largest number in the vector
-            // (and the first instance of it if duplicated)
-            let (l_index, l_value) = numbers
+            // Exclude last number as it cannot be the first number
+            let (first_idx, &first) = digits[..digits.len() - 1]
                 .iter()
-                .take(numbers.len() - 1) // Exclude last element
                 .enumerate()
                 .rev()
-                .max_by_key(|&(_, &val)| val)
+                .max_by_key(|(_, d)| *d)
                 .unwrap();
 
-            // Check if the largest number was the one before the end
-            // If so, the second number has to be the following number
-            let h_value: u8 = if l_index == numbers.len() - 2 {
-                numbers[numbers.len() - 1]
-            } else {
-                // If not, scan numbers from l_index onwards to find the largest
-                *numbers[l_index + 1..]
-                    .to_vec()
-                    .iter()
-                    .rev()
-                    .max_by_key(|&val| val)
-                    .unwrap()
-            };
+            let second = *digits[first_idx + 1..].iter().max().unwrap();
 
-            let l_val_str: String = l_value.to_string();
-            let h_val_str: String = h_value.to_string();
-
-            let result_str = format!("{}{}", l_val_str, h_val_str);
-            let result: u32 = result_str.parse().unwrap();
-
-            println!(
-                "\nBank: {}\nL VAL: {}\nL IND: {}\nH VAL: {}\nResult: {}\n",
-                bank, l_val_str, l_index, h_val_str, result
-            );
-
-            result
+            (first * 10 + second) as u32
         })
         .sum()
+}
+
+fn solve_part2(input: &[String]) -> u64 {
+    // Same as part 1 but we need the 12 largest
+    input
+        .iter()
+        .map(|bank| {
+            let digits: Vec<u8> = bank.bytes().map(|b| b - b'0').collect();
+            let numbers_to_find = 12;
+            let mut numbers_remaining = numbers_to_find;
+            let mut next_start = 0;
+            let mut final_number = Vec::with_capacity(numbers_to_find);
+
+            for _ in 0..numbers_to_find {
+                let (idx, &num) = digits[next_start..=digits.len() - numbers_remaining]
+                    .iter()
+                    .enumerate()
+                    .rev()
+                    .max_by_key(|(_, d)| *d)
+                    .unwrap();
+
+                next_start += idx + 1;
+                numbers_remaining -= 1;
+                final_number.push(num);
+            }
+
+            concat_digits(&final_number)
+        })
+        .sum()
+}
+
+// Helper function to go from Vec<u8> to u64
+fn concat_digits(vec: &[u8]) -> u64 {
+    // For each digit, multiply current by 10 then add next digit
+    // e.g [1,2,3]
+    // 0 * 10 + 1 = 1
+    // 1 * 10 + 2 = 12
+    // 12 * 10 + 3 = 123
+    vec.iter().fold(0u64, |acc, &digit| acc * 10 + digit as u64)
 }
