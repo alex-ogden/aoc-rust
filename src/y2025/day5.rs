@@ -1,6 +1,3 @@
-use range_set_blaze::RangeSetBlaze;
-use std::str::FromStr;
-
 use crate::utils;
 
 pub fn part1() {
@@ -47,37 +44,52 @@ fn solve_part1(input: &String) -> u64 {
     total_fresh
 }
 fn solve_part2(input: &String) -> u128 {
-    let val_split = input.split("\n\n");
+    let sections: Vec<&str> = input.split("\n\n").collect();
+    let ranges_section = sections[0];
 
-    // Create a vector of vectors, one containing the ids, one with the ranges
-    let mut split_vectors: Vec<Vec<&str>> = val_split
-        .map(|block| block.lines().collect::<Vec<&str>>())
+    // Parse all ranges
+    let mut ranges: Vec<(u128, u128)> = ranges_section
+        .lines()
+        .map(|line| {
+            let parts: Vec<&str> = line.split("-").collect();
+            let start = parts[0].parse::<u128>().unwrap();
+            let end = parts[1].parse::<u128>().unwrap();
+            (start, end)
+        })
         .collect();
 
-    // Assign those two vectors
-    let range_strings: Vec<&str> = split_vectors.remove(0);
-    // Use u128 directly, we will unwrap results immediately
-    let mut ranges = Vec::<(u128, u128)>::new();
+    // Sort ranges by start position
+    ranges.sort_by_key(|r| r.0);
 
-    for range_str in range_strings {
-        let parts: Vec<&str> = range_str.split('-').collect();
-        if parts.len() != 2 {
-            // Panic as requested if format is strictly wrong
-            panic!("Couldn't extract two parts from {}", range_str);
-        }
+    // Merge overlapping ranges
+    let merged = merge_ranges(ranges);
 
-        // Use unwrap() to extract the number or panic if parsing fails
-        let start = u128::from_str(parts[0]).unwrap();
-        let end = u128::from_str(parts[1]).unwrap();
-        ranges.push((start, end));
+    // Count total IDs in merged ranges
+    merged.iter().map(|(start, end)| end - start + 1).sum()
+}
+
+fn merge_ranges(ranges: Vec<(u128, u128)>) -> Vec<(u128, u128)> {
+    if ranges.is_empty() {
+        return vec![];
     }
 
-    // `RangeSetBlaze` handles merging, sorting, and deduplication
-    let range_set: RangeSetBlaze<u128> =
-        ranges.into_iter().map(|(start, end)| start..=end).collect();
+    // Create new vector including the first range
+    let mut merged = vec![ranges[0]];
 
-    println!("Stored {} unique, merged ranges", range_set.len());
+    // Loop through the other ranges from the second onwards
+    for (start, end) in ranges.into_iter().skip(1) {
+        let last_idx = merged.len() - 1;
+        let (last_start, last_end) = merged[last_idx];
 
-    // Return the total count of numbers using .count() method provided by the crate
-    range_set.total_count()
+        // Check if current range overlaps or is adjacent to the last merged range
+        if start <= last_end + 1 {
+            // Merge by extending the end
+            merged[last_idx] = (last_start, last_end.max(end));
+        } else {
+            // If no overlap, add as new range
+            merged.push((start, end));
+        }
+    }
+
+    merged
 }
