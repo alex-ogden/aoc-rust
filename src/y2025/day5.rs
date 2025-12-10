@@ -14,22 +14,17 @@ pub fn part2() {
 
 fn solve_part1(input: &String) -> u64 {
     // split incoming input by 2 newlines (to seperate ids and ranges)
-    let val_split = input.split("\n\n");
-
-    // Create a vector of vectors, one contianing the ids, one with the ranges
-    let mut split_vectors: Vec<Vec<&str>> = val_split
-        .map(|block| block.lines().collect::<Vec<&str>>())
-        .collect();
+    let sections: Vec<&str> = input.split("\n\n").collect();
 
     // Assign those two vectors
-    let ranges: Vec<&str> = split_vectors.remove(0);
-    let ids: Vec<&str> = split_vectors.remove(0);
+    let ranges = sections[0];
+    let ids = sections[1];
     let mut total_fresh = 0;
 
-    for id in ids.iter() {
+    for id in ids.lines() {
         let num_id: u64 = id.parse().unwrap();
 
-        for range in ranges.iter() {
+        for range in ranges.lines() {
             let b_range: u64 = range.split("-").next().unwrap().parse().unwrap();
             let t_range: u64 = range.split("-").nth(1).unwrap().parse().unwrap();
 
