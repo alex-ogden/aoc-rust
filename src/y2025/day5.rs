@@ -8,7 +8,7 @@ pub fn part1() {
 
 pub fn part2() {
     let input: String = utils::read_input("inputs/2025/day5.txt");
-    let result: u128 = solve_part2(&input);
+    let result: u64 = solve_part2(&input);
     println!("2025 :: Day 5 :: Part 2: {}", result);
 }
 
@@ -38,17 +38,17 @@ fn solve_part1(input: &String) -> u64 {
 
     total_fresh
 }
-fn solve_part2(input: &String) -> u128 {
+fn solve_part2(input: &String) -> u64 {
     let sections: Vec<&str> = input.split("\n\n").collect();
     let ranges_section = sections[0];
 
     // Parse all ranges
-    let mut ranges: Vec<(u128, u128)> = ranges_section
+    let mut ranges: Vec<(u64, u64)> = ranges_section
         .lines()
         .map(|line| {
             let parts: Vec<&str> = line.split("-").collect();
-            let start = parts[0].parse::<u128>().unwrap();
-            let end = parts[1].parse::<u128>().unwrap();
+            let start = parts[0].parse::<u64>().unwrap();
+            let end = parts[1].parse::<u64>().unwrap();
             (start, end)
         })
         .collect();
@@ -63,7 +63,7 @@ fn solve_part2(input: &String) -> u128 {
     merged.iter().map(|(start, end)| end - start + 1).sum()
 }
 
-fn merge_ranges(ranges: Vec<(u128, u128)>) -> Vec<(u128, u128)> {
+fn merge_ranges(ranges: Vec<(u64, u64)>) -> Vec<(u64, u64)> {
     if ranges.is_empty() {
         return vec![];
     }
