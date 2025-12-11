@@ -65,33 +65,25 @@ fn solve_part2(input: &Vec<Vec<String>>) -> u64 {
     let mut init_x_pos = 0;
     let mut xpos_tracker: HashMap<u64, u64> = HashMap::new();
     for i in 0..width {
-        xpos_tracker.insert(i as u64, 0u64);
         if input[0][i] == "S" {
             init_x_pos = i;
         }
     }
 
-    *xpos_tracker.entry(init_x_pos as u64).or_default() += 1;
+    xpos_tracker.insert(init_x_pos as u64, 1);
 
     for y in 0..height {
-        println!("Working on line {}/{}", y + 1, height);
         for xpos in 0..width {
-            println!("\t{}/{} ", xpos + 1, width);
             if input[y][xpos] == "^" {
-                for _ in 0..*xpos_tracker.get(&(xpos as u64)).unwrap() as u64 {
-                    *xpos_tracker.entry((xpos as u64) - 1 as u64).or_default() += 1;
-                    *xpos_tracker.entry((xpos as u64) + 1 as u64).or_default() += 1;
+                let count = *xpos_tracker.get(&(xpos as u64)).unwrap_or(&0);
+                if count > 0 {
+                    *xpos_tracker.entry((xpos - 1) as u64).or_default() += count;
+                    *xpos_tracker.entry((xpos + 1) as u64).or_default() += count;
                     xpos_tracker.insert(xpos as u64, 0);
                 }
             }
         }
-        println!();
     }
 
-    let mut total = 0;
-    for k in xpos_tracker.keys() {
-        total += xpos_tracker.get(k).unwrap();
-    }
-
-    total
+    xpos_tracker.values().sum()
 }
