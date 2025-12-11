@@ -1,7 +1,5 @@
 use crate::utils;
 
-use std::cmp::Reverse;
-
 pub fn part1() {
     let input: Vec<String> = utils::read_lines("inputs/2025/day6.txt");
     let result: u64 = solve_part1(&input);

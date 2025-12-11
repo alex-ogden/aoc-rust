@@ -46,6 +46,8 @@ fn main() {
         ("2025", Some("5"), Some("2"), None) => y2025::day5::part2(),
         ("2025", Some("6"), Some("1"), None) => y2025::day6::part1(),
         ("2025", Some("6"), Some("2"), None) => y2025::day6::part2(),
+        ("2025", Some("7"), Some("1"), None) => y2025::day7::part1(),
+        ("2025", Some("7"), Some("2"), None) => y2025::day7::part2(),
 
         // Whole day
         ("2025", Some("1"), None, None) => {
@@ -73,6 +75,10 @@ fn main() {
         ("2025", Some("6"), None, None) => {
             y2025::day6::part1();
             y2025::day6::part2();
+        }
+        ("2025", Some("7"), None, None) => {
+            y2025::day7::part1();
+            y2025::day7::part2();
         }
 
         // Whole year
@@ -164,4 +170,6 @@ fn run_2025() {
     y2025::day5::part2();
     y2025::day6::part1();
     y2025::day6::part2();
+    y2025::day7::part1();
+    y2025::day7::part2();
 }
