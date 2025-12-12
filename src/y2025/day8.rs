@@ -1,3 +1,9 @@
+/*
+*   !TODO: Come back to these solutions and improve them
+*   Not happy with how slow they are (~0.250s for both solutions, each) - I can run the rest of the
+*   solutions from all years in the same time it takes to run just these two solutions :(
+*/
+
 use crate::utils;
 
 const MAX_ITERS: usize = 1000;
