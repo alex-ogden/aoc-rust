@@ -9,16 +9,20 @@ pub fn part1() {
 pub fn part2() {}
 
 fn solve_part1(input: &Vec<String>) -> u64 {
+    // For each line, work out the fastest (fewest presses) solution
+    // Then sum at the end
     input
         .iter()
         .map(|line| {
+            // The following code would be much smaller/neater if I could use the regex crate
+            // Get required indicator configuration
             let rc = line
                 .find("[")
                 .and_then(|s| line.find("]").map(|e| &line[s..=e]))
                 .unwrap()
                 .to_string();
 
-            // Find available buttons
+            // Find available buttons that can be pressed
             let mut all_ab = Vec::new();
             let mut temp = line.as_str();
             while let Some(s) = temp.find("(") {
@@ -30,15 +34,19 @@ fn solve_part1(input: &Vec<String>) -> u64 {
                 }
             }
 
+            // Given available buttons, and the required configuration, workout the least number of
+            // presses to get the required configuration of indicators
             get_fastest_solution(&rc, &all_ab.join(" "))
         })
-        .sum()
+        .sum() // Find the sum of all fastest solutions and return 
 }
 
 fn solve_part2() {}
 
 // Helper functions
 fn get_fastest_solution(required_config: &String, buttons_available: &String) -> u64 {
+    // Split buttons into a vector where each button is it's own vector containing the lights that
+    // are affected by that button
     let buttons: Vec<Vec<u64>> = buttons_available
         .split_whitespace()
         .map(|button| {
@@ -51,23 +59,28 @@ fn get_fastest_solution(required_config: &String, buttons_available: &String) ->
         })
         .collect();
 
+    // Start with a clean slate (all off)
     let mut config_state = required_config.replace("#", ".");
 
+    // Mutate the state as we try different button combos
     for button in buttons {
-        // change config state to match what would happen if you pushed the button(s)
+        // Mutate state to match what would happen if you pushed the button(s)
         config_state = generate_config(&config_state, &button);
+
+        // Is that the correct state?
         if config_state == *required_config {
             println!("IT MATCHES!");
             return 31;
         }
     }
 
+    // Return random number for now to keep linter/compiler happy
     30
 }
 
 fn generate_config(init_config: &String, button_press: &Vec<u64>) -> String {
-    // Get the number of indicators on the required config to create a matching
-    // all-off config to simulate
+    // Takes a indicator configuration (all off if first time, current state if not) and apply
+    // transformation based on the buttons pressed and the indicator lights they affect
     let mut inner_config = init_config.replace("[", "").replace("]", "");
 
     for indicator_idx in button_press {
@@ -78,8 +91,11 @@ fn generate_config(init_config: &String, button_press: &Vec<u64>) -> String {
         }
     }
 
+    // Add the square brackets back to form the original string, but now mutated. Makes comparing
+    // to required config easier later on
     let config: String = format!("{}{}{}", "[", inner_config, "]");
 
+    // DEBUG: Output to ensure state is properly mutated
     println!("Button:          {:?}", button_press);
     println!("Initial config: {:?}", init_config);
     println!("Returning config: {:?}", config);
