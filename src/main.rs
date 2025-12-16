@@ -1,6 +1,7 @@
 use std::env;
 
 mod utils;
+mod y2015;
 mod y2019;
 mod y2022;
 mod y2025;
@@ -100,9 +101,31 @@ fn main() {
         }
 
         // Whole year
+        ("2015", None, None, None) => run_2015(),
         ("2019", None, None, None) => run_2019(),
         ("2022", None, None, None) => run_2022(),
         ("2025", None, None, None) => run_2025(),
+
+        // 2015 specific parts
+        ("2015", Some("1"), Some("1"), None) => y2015::day1::part1(),
+        ("2015", Some("1"), Some("2"), None) => y2015::day1::part2(),
+        ("2015", Some("2"), Some("1"), None) => y2015::day2::part1(),
+        ("2015", Some("2"), Some("2"), None) => y2015::day2::part2(),
+        // ("2015", Some("3"), Some("1"), None) => y2015::day3::part1(),
+        // ("2015", Some("3"), Some("2"), None) => y2015::day3::part2(),
+
+        ("2015", Some("1"), None, None) => {
+            y2015::day1::part1();
+            y2015::day1::part2();
+        }
+        ("2015", Some("2"), None, None) => {
+            y2015::day2::part1();
+            y2015::day2::part2();
+        }
+        // ("2015", Some("3"), None, None) => {
+        //     y2015::day3::part1();
+        // }
+
 
         // 2019 specific parts
         ("2019", Some("1"), Some("1"), None) => y2019::day1::part1(),
@@ -151,9 +174,17 @@ fn main() {
 }
 
 fn run_all() {
+    run_2015();
     run_2019();
     run_2022();
     run_2025();
+}
+
+fn run_2015() {
+    y2015::day1::part1();
+    y2015::day1::part2();
+    y2015::day2::part1();
+    y2015::day2::part2();
 }
 
 fn run_2019() {
