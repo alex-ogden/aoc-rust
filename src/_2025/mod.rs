@@ -1,0 +1,42 @@
+pub mod day1;
+pub mod day10;
+pub mod day2;
+pub mod day2mt;
+pub mod day3;
+pub mod day4;
+pub mod day4vis;
+pub mod day5;
+pub mod day6;
+pub mod day7;
+pub mod day8;
+pub mod day9;
+
+pub const PART1: &[fn()] = &[
+    day1::part1,
+    day2::part1,
+    day2::part1,
+    day2::part1,
+    day2::part1,
+    day2::part1,
+    day2::part1,
+    day2::part1,
+    day2::part1,
+    day2::part1,
+    day2::part1,
+    day2::part1,
+];
+
+pub const PART2: &[fn()] = &[
+    day1::part2,
+    day2::part2,
+    day2mt::part2,
+    day3::part2,
+    day4::part2,
+    day4vis::part2,
+    day5::part2,
+    day6::part2,
+    day7::part2,
+    day8::part2,
+    day9::part2,
+    day10::part2,
+];

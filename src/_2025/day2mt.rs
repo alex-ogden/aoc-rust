@@ -5,13 +5,13 @@ use rayon::prelude::*;
 // Exactly the same solution, but with Rayon used to check each ID range in parallel
 
 pub fn part1() {
-    let input: String = utils::read_input("inputs/2025/day2.txt");
+    let input: String = utils::read_input(2025, 2, false);
     let result: u64 = solve_part1(&input);
     println!("2025 :: Day 2 :: Part 1 (MT): {}", result);
 }
 
 pub fn part2() {
-    let input: String = utils::read_input("inputs/2025/day2.txt");
+    let input: String = utils::read_input(2025, 2, false);
     let result: u64 = solve_part2(&input);
     println!("2025 :: Day 2 :: Part 2 (MT): {}", result);
 }

@@ -1,12 +1,12 @@
 use crate::utils;
 
 pub fn part1() {
-    let input: String = utils::read_input("inputs/2015/day1.txt");
+    let input: String = utils::read_input(2015, 1, false);
     let result: i64 = solve_part1(&input);
     println!("2015 :: Day 1 :: Part 1: {}", result);
 }
 pub fn part2() {
-    let input: String = utils::read_input("inputs/2015/day1.txt");
+    let input: String = utils::read_input(2015, 1, false);
     let result: u64 = solve_part2(&input);
     println!("2015 :: Day 1 :: Part 2: {}", result);
 }

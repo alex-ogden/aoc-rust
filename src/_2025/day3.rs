@@ -1,13 +1,13 @@
 use crate::utils;
 
 pub fn part1() {
-    let input: Vec<String> = utils::read_lines("inputs/2025/day3.txt");
+    let input: Vec<String> = utils::read_lines(2025, 3, false);
     let result: u32 = solve_part1(&input);
     println!("2025 :: Day 3 :: Part 1: {}", result);
 }
 
 pub fn part2() {
-    let input: Vec<String> = utils::read_lines("inputs/2025/day3.txt");
+    let input: Vec<String> = utils::read_lines(2025, 3, false);
     let result: u64 = solve_part2(&input);
     println!("2025 :: Day 3 :: Part 2: {}", result);
 }

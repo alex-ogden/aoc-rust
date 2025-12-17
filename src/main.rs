@@ -1,230 +1,52 @@
 use std::env;
 
+mod _2015;
+mod _2025;
 mod utils;
-mod y2015;
-mod y2019;
-mod y2022;
-mod y2025;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    if args.len() < 2 {
+    if args.len() == 1 {
         run_all();
         return;
     }
 
     let year = &args[1];
-    let day = args.get(2).map(|s| s.as_str());
-    let part = args.get(3).map(|s| s.as_str());
-    let variant = args.get(4).map(|s| s.as_str()); // mt, test, etc.
+    let day = args.get(2).and_then(|s| s.parse::<usize>().ok());
+    let part = args.get(3).and_then(|s| s.parse::<usize>().ok());
 
-    match (year.as_str(), day, part, variant) {
-        // 2025 with variants
-        ("2025", Some("2"), Some("1"), Some("mt")) => y2025::day2mt::part1(),
-        ("2025", Some("2"), Some("2"), Some("mt")) => y2025::day2mt::part2(),
-        ("2025", Some("2"), None, Some("mt")) => {
-            y2025::day2mt::part1();
-            y2025::day2mt::part2();
-        }
-        ("2025", Some("4"), Some("2"), Some("vis")) => {
-            y2025::day4vis::part2();
-        }
-        ("2025", Some("4"), Some("vis"), None) => {
-            y2025::day4vis::part2();
-        }
-
-        // Standard 2025 specific parts
-        ("2025", Some("1"), Some("1"), None) => y2025::day1::part1(),
-        ("2025", Some("1"), Some("2"), None) => y2025::day1::part2(),
-        ("2025", Some("2"), Some("1"), None) => y2025::day2::part1(),
-        ("2025", Some("2"), Some("2"), None) => y2025::day2::part2(),
-        ("2025", Some("3"), Some("1"), None) => y2025::day3::part1(),
-        ("2025", Some("3"), Some("2"), None) => y2025::day3::part2(),
-        ("2025", Some("4"), Some("1"), None) => y2025::day4::part1(),
-        ("2025", Some("4"), Some("2"), None) => y2025::day4::part2(),
-        ("2025", Some("5"), Some("1"), None) => y2025::day5::part1(),
-        ("2025", Some("5"), Some("2"), None) => y2025::day5::part2(),
-        ("2025", Some("6"), Some("1"), None) => y2025::day6::part1(),
-        ("2025", Some("6"), Some("2"), None) => y2025::day6::part2(),
-        ("2025", Some("7"), Some("1"), None) => y2025::day7::part1(),
-        ("2025", Some("7"), Some("2"), None) => y2025::day7::part2(),
-        ("2025", Some("8"), Some("1"), None) => y2025::day8::part1(),
-        ("2025", Some("8"), Some("2"), None) => y2025::day8::part2(),
-        ("2025", Some("9"), Some("1"), None) => y2025::day9::part1(),
-        ("2025", Some("9"), Some("2"), None) => y2025::day9::part2(),
-        ("2025", Some("10"), Some("1"), None) => y2025::day10::part1(),
-        ("2025", Some("10"), Some("2"), None) => y2025::day10::part2(),
-
-        // Whole day
-        ("2025", Some("1"), None, None) => {
-            y2025::day1::part1();
-            y2025::day1::part2();
-        }
-        ("2025", Some("2"), None, None) => {
-            y2025::day2::part1();
-            y2025::day2::part2();
-            y2025::day2mt::part1();
-            y2025::day2mt::part2();
-        }
-        ("2025", Some("3"), None, None) => {
-            y2025::day3::part1();
-            y2025::day3::part2();
-        }
-        ("2025", Some("4"), None, None) => {
-            y2025::day4::part1();
-            y2025::day4::part2();
-        }
-        ("2025", Some("5"), None, None) => {
-            y2025::day5::part1();
-            y2025::day5::part2();
-        }
-        ("2025", Some("6"), None, None) => {
-            y2025::day6::part1();
-            y2025::day6::part2();
-        }
-        ("2025", Some("7"), None, None) => {
-            y2025::day7::part1();
-            y2025::day7::part2();
-        }
-        ("2025", Some("8"), None, None) => {
-            y2025::day8::part1();
-            y2025::day8::part2();
-        }
-        ("2025", Some("9"), None, None) => {
-            y2025::day9::part1();
-            y2025::day9::part2();
-        }
-        ("2025", Some("10"), None, None) => {
-            y2025::day10::part1();
-            y2025::day10::part2();
-        }
-
-        // Whole year
-        ("2015", None, None, None) => run_2015(),
-        ("2019", None, None, None) => run_2019(),
-        ("2022", None, None, None) => run_2022(),
-        ("2025", None, None, None) => run_2025(),
-
-        // 2015 specific parts
-        ("2015", Some("1"), Some("1"), None) => y2015::day1::part1(),
-        ("2015", Some("1"), Some("2"), None) => y2015::day1::part2(),
-        ("2015", Some("2"), Some("1"), None) => y2015::day2::part1(),
-        ("2015", Some("2"), Some("2"), None) => y2015::day2::part2(),
-        // ("2015", Some("3"), Some("1"), None) => y2015::day3::part1(),
-        // ("2015", Some("3"), Some("2"), None) => y2015::day3::part2(),
-
-        ("2015", Some("1"), None, None) => {
-            y2015::day1::part1();
-            y2015::day1::part2();
-        }
-        ("2015", Some("2"), None, None) => {
-            y2015::day2::part1();
-            y2015::day2::part2();
-        }
-        // ("2015", Some("3"), None, None) => {
-        //     y2015::day3::part1();
-        // }
-
-
-        // 2019 specific parts
-        ("2019", Some("1"), Some("1"), None) => y2019::day1::part1(),
-        ("2019", Some("1"), Some("2"), None) => y2019::day1::part2(),
-        ("2019", Some("2"), Some("1"), None) => y2019::day2::part1(),
-        ("2019", Some("2"), Some("2"), None) => y2019::day2::part2(),
-        ("2019", Some("3"), Some("1"), None) => y2019::day3::part1(),
-
-        ("2019", Some("1"), None, None) => {
-            y2019::day1::part1();
-            y2019::day1::part2();
-        }
-        ("2019", Some("2"), None, None) => {
-            y2019::day2::part1();
-            y2019::day2::part2();
-        }
-        ("2019", Some("3"), None, None) => {
-            y2019::day3::part1();
-        }
-
-        // 2022 specific parts
-        ("2022", Some("1"), Some("1"), None) => y2022::day1::part1(),
-        ("2022", Some("1"), Some("2"), None) => y2022::day1::part2(),
-        ("2022", Some("2"), Some("1"), None) => y2022::day2::part1(),
-        ("2022", Some("2"), Some("2"), None) => y2022::day2::part2(),
-        ("2022", Some("3"), Some("1"), None) => y2022::day3::part1(),
-        ("2022", Some("3"), Some("2"), None) => y2022::day3::part2(),
-
-        ("2022", Some("1"), None, None) => {
-            y2022::day1::part1();
-            y2022::day1::part2();
-        }
-        ("2022", Some("2"), None, None) => {
-            y2022::day2::part1();
-            y2022::day2::part2();
-        }
-        ("2022", Some("3"), None, None) => {
-            y2022::day3::part1();
-            y2022::day3::part2();
-        }
-
-        _ => println!(
-            "Usage: cargo run [year] [day] [part] [variant]\nExamples:\n  cargo run 2025\n  cargo run 2025 2\n  cargo run 2025 2 1\n  cargo run 2025 2 1 mt"
-        ),
+    match year.as_str() {
+        "2015" => run_year(2015, &_2015::PART1, &_2015::PART2, day, part),
+        "2025" => run_year(2025, &_2025::PART1, &_2025::PART2, day, part),
+        _ => println!("Unknown year"),
     }
 }
 
+fn run_year(year: u32, part1: &[fn()], part2: &[fn()], day: Option<usize>, part: Option<usize>) {
+    match (day, part) {
+        (None, None) => {
+            for i in 0..part1.len() {
+                run_timed(year, i + 1, 1, part1[i]);
+                run_timed(year, i + 1, 2, part2[i]);
+            }
+        }
+        (Some(d), None) => {
+            run_timed(year, d, 1, part1[d - 1]);
+            run_timed(year, d, 2, part2[d - 1]);
+        }
+        (Some(d), Some(1)) => run_timed(year, d, 1, part1[d - 1]),
+        (Some(d), Some(2)) => run_timed(year, d, 2, part2[d - 1]),
+        _ => println!("Invalid arguments"),
+    }
+}
+
+fn run_timed(year: u32, day: usize, part: usize, f: fn()) {
+    let label = format!("{} Day {} Part {}", year, day, part);
+    utils::time(&label, f);
+}
+
 fn run_all() {
-    run_2015();
-    run_2019();
-    run_2022();
-    run_2025();
-}
-
-fn run_2015() {
-    y2015::day1::part1();
-    y2015::day1::part2();
-    y2015::day2::part1();
-    y2015::day2::part2();
-}
-
-fn run_2019() {
-    y2019::day1::part1();
-    y2019::day1::part2();
-    y2019::day2::part1();
-    y2019::day2::part2();
-    y2019::day3::part1();
-}
-
-fn run_2022() {
-    y2022::day1::part1();
-    y2022::day1::part2();
-    y2022::day2::part1();
-    y2022::day2::part2();
-    y2022::day3::part1();
-    y2022::day3::part2();
-}
-
-fn run_2025() {
-    y2025::day1::part1();
-    y2025::day1::part2();
-    y2025::day2::part1();
-    y2025::day2::part2();
-    y2025::day2mt::part1();
-    y2025::day2mt::part2();
-    y2025::day3::part1();
-    y2025::day3::part2();
-    y2025::day4::part1();
-    y2025::day4::part2();
-    y2025::day5::part1();
-    y2025::day5::part2();
-    y2025::day6::part1();
-    y2025::day6::part2();
-    y2025::day7::part1();
-    y2025::day7::part2();
-    y2025::day8::part1();
-    y2025::day8::part2();
-    y2025::day9::part1();
-    y2025::day9::part2();
-    y2025::day10::part1();
-    y2025::day10::part2();
+    run_year(2015, &_2015::PART1, &_2015::PART2, None, None);
+    run_year(2025, &_2025::PART1, &_2025::PART2, None, None);
 }

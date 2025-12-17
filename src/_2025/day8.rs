@@ -9,13 +9,13 @@ use crate::utils;
 const MAX_ITERS: usize = 1000;
 
 pub fn part1() {
-    let input: Vec<String> = utils::read_lines("inputs/2025/day8.txt");
+    let input: Vec<String> = utils::read_lines(2025, 8, false);
     let result: i64 = solve_part1(&input);
     println!("2025 :: Day 8 :: Part 1: {}", result);
 }
 
 pub fn part2() {
-    let input: Vec<String> = utils::read_lines("inputs/2025/day8.txt");
+    let input: Vec<String> = utils::read_lines(2025, 8, false);
     let result: i64 = solve_part2(&input);
     println!("2025 :: Day 8 :: Part 2: {}", result);
 }

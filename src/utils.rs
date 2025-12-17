@@ -1,27 +1,36 @@
-use std::fs;
+use std::{fs, time::Instant};
 
-pub fn read_input(path: &str) -> String {
+pub fn read_input(year: u32, day: u32, test: bool) -> String {
+    let path = format!(
+        "inputs/{}/day{}{}.txt",
+        year,
+        day,
+        if test { "-test" } else { "" }
+    );
     fs::read_to_string(path).expect("Failed to read file")
 }
 
-pub fn read_lines(path: &str) -> Vec<String> {
+pub fn read_lines(year: u32, day: u32, test: bool) -> Vec<String> {
     // Breaks string (returned by read_input) into lines, maps the lines to strings
     // and collects into an iterable.
-    read_input(path).lines().map(|s| s.to_string()).collect()
+    read_input(year, day, test)
+        .lines()
+        .map(|s| s.to_string())
+        .collect()
 }
 
-pub fn read_grid(path: &str) -> Vec<Vec<String>> {
+pub fn read_grid(year: u32, day: u32, test: bool) -> Vec<Vec<String>> {
     // Takes a path, uses read_lines() to get a vector of strings, then
     // breaks each line into a vector of strings, appending those to the main
     // vector to return a 2D grid of strings
-    read_lines(path)
+    read_lines(year, day, test)
         .iter()
         .map(|line| line.chars().map(|c| c.to_string()).collect())
         .collect()
 }
 
-pub fn read_grid_by_char(path: &str, delimiter: char) -> Vec<Vec<String>> {
-    read_lines(path)
+pub fn read_grid_by_char(year: u32, day: u32, test: bool, delimiter: char) -> Vec<Vec<String>> {
+    read_lines(year, day, test)
         .iter()
         .map(|line| line.split(delimiter).map(|s| s.to_string()).collect())
         .collect()
@@ -57,4 +66,11 @@ pub fn get_num_neighbours(
     }
 
     total
+}
+
+pub fn time(label: &str, f: impl FnOnce()) {
+    let start = Instant::now();
+    f();
+    let elapsed = start.elapsed();
+    println!("{label}: {:.3?}", elapsed);
 }

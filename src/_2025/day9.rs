@@ -4,13 +4,13 @@ use rayon::prelude::*;
 use std::collections::HashSet;
 
 pub fn part1() {
-    let input: Vec<String> = utils::read_lines("inputs/2025/day9.txt");
+    let input: Vec<String> = utils::read_lines(2025, 9, false);
     let result: u64 = solve_part1(&input);
     println!("2025 :: Day 9 :: Part 1: {}", result);
 }
 
 pub fn part2() {
-    let input: Vec<String> = utils::read_lines("inputs/2025/day9.txt");
+    let input: Vec<String> = utils::read_lines(2025, 9, false);
     let result: u64 = solve_part2(&input);
     println!("2025 :: Day 9 :: Part 2: {}", result);
 }
@@ -68,18 +68,6 @@ fn solve_part2(input: &Vec<String>) -> u64 {
         for (idx2, coord2) in coords_copy.iter().enumerate() {
             let (x1, y1) = coord1;
             let (x2, y2) = coord2;
-
-            println!(
-                "{}/{}: {}/{}: Checking {},{} against {},{}",
-                idx1,
-                coords.len(),
-                idx2,
-                coords_copy.len(),
-                x1,
-                y1,
-                x2,
-                y2
-            );
 
             if is_in_perimeter(*x1, *y1, *x2, *y2, &perimeter_coords) {
                 valid_recs.push(get_area(*x1, *y1, *x2, *y2));

@@ -3,12 +3,12 @@ use crate::utils;
 use std::collections::{HashMap, HashSet};
 
 pub fn part1() {
-    let input: Vec<Vec<String>> = utils::read_grid("inputs/2025/day7.txt");
+    let input: Vec<Vec<String>> = utils::read_grid(2025, 7, false);
     let result: u64 = solve_part1(&input);
     println!("2025 :: Day 7 :: Part 1: {}", result);
 }
 pub fn part2() {
-    let input: Vec<Vec<String>> = utils::read_grid("inputs/2025/day7.txt");
+    let input: Vec<Vec<String>> = utils::read_grid(2025, 7, false);
     let result: u64 = solve_part2(&input);
     println!("2025 :: Day 7 :: Part 2: {}", result);
 }
