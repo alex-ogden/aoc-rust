@@ -14,16 +14,16 @@ pub mod day9;
 pub const PART1: &[fn()] = &[
     day1::part1,
     day2::part1,
-    day2::part1,
-    day2::part1,
-    day2::part1,
-    day2::part1,
-    day2::part1,
-    day2::part1,
-    day2::part1,
-    day2::part1,
-    day2::part1,
-    day2::part1,
+    day2mt::part1,
+    day3::part1,
+    day4::part1,
+    day4vis::part1,
+    day5::part1,
+    day6::part1,
+    day7::part1,
+    day8::part1,
+    day9::part1,
+    day10::part1,
 ];
 
 pub const PART2: &[fn()] = &[
