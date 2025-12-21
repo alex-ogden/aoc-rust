@@ -35,7 +35,9 @@ fn solve_part1(input: &Vec<String>) -> u64 {
                 }
             }
 
-            let contains_forbidden: bool = forbidden_substrings.iter().any(|&substring| line.contains(substring));
+            let contains_forbidden: bool = forbidden_substrings
+                .iter()
+                .any(|&substring| line.contains(substring));
 
             if (vowel_count >= 3) && has_repeat && !contains_forbidden {
                 return 1;
@@ -48,45 +50,42 @@ fn solve_part1(input: &Vec<String>) -> u64 {
 
 fn solve_part2(input: &Vec<String>) -> u64 {
     // Nice strings:
-    //  - has one letter that repeats with a letter between them (i.e aya or uuu)
     //  - has repeating, but not overapping pairs that appear at least twice (i.e yxyx or aabytaa)
+    //  - has one letter that repeats with a letter between them (i.e aya or uuu)
     input
         .iter()
         .map(|line| {
-            // check for repeating letter with letter between
-            let mut has_repeat: bool = false;
-            let mut has_repeat_no: bool = false;
+            let mut repeat_with_no_overlap: bool = false;
+            let mut repeat_with_letter_between: bool = false;
 
-            println!("Line: {}", line);
+            // Check for repeat with no overlap
+            for letter_index in 0..line.len() {
+                if letter_index < line.len() - 3 {
+                    // Take groups of two letters
+                    let check_section = &line[letter_index..letter_index + 2];
+                    let remaining_section: &str = &line[letter_index + 2..line.len()];
 
-            for (idx,letter) in line.chars().enumerate() {
-                if idx < line.len() - 2 {
-                    let section = &line[idx..idx+3];
-                    if section.chars().nth(0) == section.chars().nth(2) {
-                        has_repeat = true;
-                        println!("\tHas repeat: {} ({})", if has_repeat { "true" } else { "false" }, section);
+                    if remaining_section.contains(check_section) {
+                        repeat_with_no_overlap = true;
                         break;
                     }
                 }
             }
 
-            for (idx,letter) in line.chars().enumerate() {
-                if idx < line.len() - 3 {
-                    let section = &line[idx..idx+2].to_string();
-                    let check_section = &line[idx+3..].to_string();
-                    if check_section.matches(section).count() > 0 {
-                        has_repeat_no = true;
-                        println!("\tHas repeat no: {} ({})", if has_repeat_no { "true" } else { "false" }, section);
+            // Check for repeat with letter between
+            for letter_index in 0..line.len() {
+                if letter_index < line.len() - 2 {
+                    let check_section = &line[letter_index..letter_index + 3];
+                    if check_section.chars().nth(0) == check_section.chars().nth(2) {
+                        repeat_with_letter_between = true;
                         break;
                     }
                 }
             }
 
-            if has_repeat && has_repeat_no {
-                println!("NICE!");
-                1 
+            if repeat_with_no_overlap && repeat_with_letter_between {
+                1
             } else {
-                println!("NOT NICE!");
                 0
             }
         })
